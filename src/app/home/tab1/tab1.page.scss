@@ -1,0 +1,18 @@
+.swiper-slide {
+    display: block;
+  }
+
+ion-slide img {
+  padding-top: 10%;
+  max-height: 60%;
+  max-width: 60%;
+  margin: 40px 0;
+
+}
+
+ion-slide h1, p, ion-button {
+   text-align: center;
+   font-weight: bolder;
+   text-decoration: solid !important;
+   text-shadow: 1.5em;
+}

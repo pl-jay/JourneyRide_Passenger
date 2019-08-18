@@ -1,0 +1,35 @@
+<ion-content fullscreen padding scroll-y="true">
+<ion-slides>
+  <ion-slide>
+    <h2>LOADER !</h2>
+    <h3>wait here for moment please !</h3>
+    <h6>Driver's will send you budget for your journey</h6>
+  </ion-slide>
+  <ion-slide>
+
+    <ion-list>
+      <ion-list-header>
+        <h4>Recent Notifications from Drivers</h4>
+      </ion-list-header>
+    </ion-list>
+
+    <ion-card *ngFor="let bid of bidDetails.bid1">
+      <ion-item>
+        <img src={{bid.prof_pic}} class="profile-pic">
+        <h4>Driver : {{ bid.driverName }}</h4>
+      </ion-item>
+      <ion-item>
+          <p>Budget  : {{ bid.budget }} LKR </p>
+          <p>Vehicle : {{ bid.vehicle }} </p>
+      </ion-item>
+
+      <ion-card-content>
+        <ion-button fill="outline" expand="small" slot="end" (click)="onClick(bid.bidId)"> Vehicle </ion-button>
+        <ion-button fill="outline" expand="small" slot="end" (click)="onClick(bid.bidId)"> Accept This Offer </ion-button>
+      </ion-card-content>
+    </ion-card>
+    
+  </ion-slide>
+</ion-slides>
+ 
+</ion-content>

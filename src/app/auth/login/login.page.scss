@@ -1,0 +1,49 @@
+
+ion-item{
+    --ion-background-color: transparent;
+ }
+  
+
+form {
+    padding-block: 20px;
+    padding-top: 25%;
+}
+
+.signup {
+    position: inherit;
+    padding-top: 35% !important;
+}
+
+.no-background {
+    background: none !important;
+  }
+
+ion-button{
+    --background: #062f77;
+}
+
+.login-btn {
+  align-content: center;
+}
+
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin: 20px auto 0;
+    border-radius: 10%;
+   // background: url("../../../assets/img/ionic3-ico.png") no-repeat;
+    background-size: 100%;
+  }
+
+  .error-message {
+    min-height: 2.2rem;
+    padding-left: 20px !important;
+    p {
+      margin: 2px 0;
+      font-size: 80%;
+      color: #ff6153;
+    }
+    .item-inner {
+      border-bottom: 0 !important;
+    }
+  }

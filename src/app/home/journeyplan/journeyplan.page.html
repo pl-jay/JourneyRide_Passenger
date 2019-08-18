@@ -1,0 +1,123 @@
+<ion-content fullscreen padding scrolY="true">
+<form [formGroup]="journeyplanForm" (ngSubmit)="onSubmit()">
+      
+    <ion-item>
+      <ion-label position="floating">FROM</ion-label>
+      <ion-input type="text" formControlName="loc_from"></ion-input>
+    </ion-item>
+
+    <ion-item>
+    <div formArrayName="waypoints">
+    <h5>Waypoints </h5>
+      <section [formGroupName]="i" *ngFor="let tech of journeyplanForm.controls.waypoints.controls; let i = index">
+       <ion-item>
+        <ion-label>wp_{{ i + 1 }}: </ion-label>
+        <ion-input type="text" maxlength="50" formControlName="waypoint"> </ion-input>
+        <ion-icon name="close-circle-outline" color="primary
+        " (click)="removeInputField(i)"></ion-icon>
+       </ion-item>
+      </section>
+      
+      <ion-button float-left  icon-left clear size="small" shape="round" slot="icon-only" color="primary" (click)="addNewInputField()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        <ion-label>New</ion-label>
+      </ion-button>
+    </div>
+    </ion-item>
+    
+
+    <ion-item>
+      <ion-label position="floating">Number of Passenger</ion-label>
+      <ion-input type="number" formControlName="no_psngr"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating"> PickUp Location </ion-label>
+      <ion-input type="text" formControlName="loc_pickup"></ion-input>
+    </ion-item> 
+
+    <ion-item>
+      <ion-button size="small" shape="round" color="primary" (click)="getCurrentPlaceCords()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>FROM</ion-label>
+      <ion-datetime formControlName="date_from"></ion-datetime>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>To</ion-label>
+      <ion-datetime formControlName="date_to"></ion-datetime>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>PickUp Time</ion-label>
+      <ion-datetime display-format="h:mm A" picker-format="h:mm A" formControlName="pickup_time"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Number of Nights</ion-label>
+      <ion-input type="number" formControlName="no_nights"></ion-input>
+    </ion-item>
+    
+    
+    <ion-grid>
+
+    <ion-radio-group  formControlName="vehicle_condition">
+    <ion-row>
+      <h4><ion-label>Vehicle Condition</ion-label></h4>
+    </ion-row>
+      <ion-row>
+        <ion-col>
+        <ion-item>
+          <ion-label>A/C</ion-label>
+          <ion-radio slot="start" color="dark" value="ac"></ion-radio>
+        </ion-item>
+        </ion-col>
+      
+        <ion-col>
+          <ion-item>
+            <ion-label>Non A/C</ion-label>
+            <ion-radio slot="start" color="dark" value="nac"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
+      
+      <ion-radio-group formControlName="vehicle_type">
+      <ion-row>
+      <h4><ion-label>Vehicle Type</ion-label></h4>
+    </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Van</ion-label>
+              <ion-radio slot="start" color="dark" value="van"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label>Car</ion-label>
+              <ion-radio slot="start" color="dark" value="car"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label>Bus</ion-label>
+              <ion-radio slot="start" color="dark" value="bus"></ion-radio>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+      </ion-grid>
+      
+      <ion-item>
+      <ion-label position="floating">Description</ion-label>
+        <ion-textarea formControlName="desc"></ion-textarea>
+      </ion-item>
+      
+      <ion-button expand="block" color="dark" type="submit">Submit</ion-button>
+      
+  </form>
+</ion-content>
