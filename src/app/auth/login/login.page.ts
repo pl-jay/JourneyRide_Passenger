@@ -65,8 +65,6 @@ export class LoginPage implements OnInit {
         loading.dismiss();
         this.notificationService.showSuccessAlert('Loggin success !');
         this.navCtrl.navigateForward('/');
-        console.log(this.gAuthService.userDetails());
-        this.gAuthService.tokenStore();
       },
       (err) => {
         this.notificationService.showErrorAlert(err.message);

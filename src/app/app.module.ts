@@ -10,8 +10,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { IonicStorageModule } from '@ionic/storage';
+import { Storage, IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +24,14 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+export function jwtOptionFactory(storage) {
+  return {
+    tokenGetter: () => {
+      return storage.get('access_token');
+    },
+    whitelistedDomains: ['*']
+  }
+}
 
 
 firebase.initializeApp(environment.firebase);
@@ -33,6 +42,13 @@ firebase.initializeApp(environment.firebase);
     BrowserModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionFactory,
+        deps: [Storage],
+      }
+    }),
     AppRoutingModule,
     AngularFireModule,
     AngularFireAuthModule,

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { GAuthenticateService } from '../../services/g-auth/gauthentication.service';
+import { NotificationService } from '../../services/notification/notification.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: './tab1.page.html',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab1Page implements OnInit {
 
-  constructor() { }
+  constructor(private gAuth: GAuthenticateService, private notificationService: NotificationService) { }
 
   ngOnInit() {
   }
 
+  logout() {
+    this.gAuth.logoutUser().then((res) => {
+      this.notificationService.showSuccessAlert('You logged Out !');
+    }).catch((err) => {
+      this.notificationService.showErrorAlert(err.message);
+      throw new Error(err);
+    })
+  }
 }

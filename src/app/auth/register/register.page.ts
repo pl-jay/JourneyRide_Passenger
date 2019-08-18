@@ -65,10 +65,8 @@ export class RegisterPage implements OnInit {
       finalize(() => loading.dismiss())
     )
      .subscribe(res => {
-       console.log(res);
        this.notificationService.showSuccessAlert('Your account has been created. Please log in.');
      }, err => {
-       console.log(err);
        this.notificationService.showErrorAlert(err.message);
      });
   }

@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Router } from '@angular/router';
 
+import { GAuthenticateService } from '../app/services/g-auth/gauthentication.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -16,7 +18,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private router: Router
+    private router: Router,
+    private authenticationService: GAuthenticateService
   ) {
     this.initializeApp();
   }
@@ -25,7 +28,16 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.router.navigate(['auth']);
+
+      this.authenticationService.authenticationState.subscribe(state => {
+        if (state) {
+          console.log(state);
+          this.router.navigate(['']);
+        } else {
+          console.log(state);
+          this.router.navigate(['auth']);
+        }
+      });
     });
   }
 }
