@@ -9,7 +9,8 @@ import { BehaviorSubject, from } from 'rxjs';
 import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 
-const TOKEN_KEY = 'access_token';
+const TOKEN_KEY = '';
+const UID       = '';
  
 @Injectable()
 export class GAuthenticateService {
@@ -38,8 +39,9 @@ export class GAuthenticateService {
 
   loginUser(value): Promise<firebase.auth.UserCredential | void> {
     return firebase.auth()
-    .signInWithEmailAndPassword(value.email, value.password).then(() => {
-      this.authenticationState.next(true); 
+    .signInWithEmailAndPassword(value.email, value.password).then((res) => {
+      this.setUsertokenStorage();
+      this.authenticationState.next(true);
     });
   }
 
@@ -56,7 +58,9 @@ export class GAuthenticateService {
     return from(firebase.auth().signOut()).pipe(
       finalize(() => loading.dismiss())
     ).subscribe(() => {
-      this.authenticationState.next(false);
+      this.storageService.clearStorageData().then(() => {
+        this.authenticationState.next(false);
+      });
     });
   }
  
@@ -66,9 +70,7 @@ export class GAuthenticateService {
 
   setUsertokenStorage() {
     firebase.auth().onAuthStateChanged((result) => {
-      console.log(result.email);
-      this.storageService.setStorageData('uemail', result.email);
-      this.storageService.setStorageData('uid', result.uid);
+      this.storageService.setStorageData('UID', result.uid);
       result.getIdToken().then((token) => {
         this.storageService.setStorageData('TOKEN_KEY', token);
       });
@@ -76,16 +78,15 @@ export class GAuthenticateService {
   }
 
   checkToken() {
-    this.storageService.getStorageData(TOKEN_KEY).then(token => {
+    this.storageService.getStorageData('TOKEN_KEY').then((token) => {
       if (token) {
-        const decoded = this.jwtHelper.decodeToken(token);
+        const decoded   = this.jwtHelper.decodeToken(token);
         const isExpired = this.jwtHelper.isTokenExpired(token);
-
-        if(!isExpired) {
+        if (!isExpired) {
           this.user = decoded;
           this.authenticationState.next(true);
         } else {
-          this.storageService.removeStorageData(TOKEN_KEY);
+          this.storageService.removeStorageData('TOKEN_KEY');
         }
         this.authenticationState.next(true);
       }

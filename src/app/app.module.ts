@@ -12,17 +12,20 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage, IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { GoogleMaps } from '@ionic-native/google-maps';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { environment } from 'src/environments/environment';
-import { GAuthenticateService } from '../app/services/g-auth/gauthentication.service';
+import { GAuthenticateService } from './services/g-auth/gauthentication.service';
+import { AuthGuardService } from './services/authguard/auth-guard.service';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import { Push } from '@ionic-native/push/ngx';
 
 export function jwtOptionFactory(storage) {
   return {
@@ -60,7 +63,10 @@ firebase.initializeApp(environment.firebase);
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: FirestoreSettingsToken, useValue: {} },
     GAuthenticateService,
-    Geolocation
+    AuthGuardService,
+    Geolocation,
+    GoogleMaps,
+    Push
   ],
   bootstrap: [AppComponent]
 })

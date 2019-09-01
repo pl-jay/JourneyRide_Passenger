@@ -19,4 +19,8 @@ export class StorageService {
   async removeStorageData(key) {
     this.storage.remove(key);
   }
+
+  async clearStorageData()  {
+    this.storage.clear();
+  }
 }

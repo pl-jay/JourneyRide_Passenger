@@ -1,9 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  LatLng,
+  MarkerOptions,
+  Marker,
+  LocationService,
+  GoogleMapOptions
+} from '@ionic-native/google-maps';
 
 import { Platform, NavController } from '@ionic/angular';
-
-declare var google;
 
 @Component({
   selector: 'app-tab3',
@@ -13,10 +21,13 @@ declare var google;
 
 export class Tab3Page implements OnInit {
 
-  @ViewChild('map', {static: false}) mapElement: ElementRef;
+  @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: any;
   LatLang: any;
   marker: any;
+  myLat: any;
+  myLong: any;
+
 
 
   constructor(
@@ -24,31 +35,57 @@ export class Tab3Page implements OnInit {
     public platform: Platform,
     public nav: NavController) {
   }
-
   ngOnInit() {
-    this.platform.ready().then(() => {
+    this.currentPlace();
+    this.platform.ready().then( () => {
       this.loadMap();
     });
   }
 
+  currentPlace() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+
+      this.myLat = resp.coords.latitude;
+      this.myLong = resp.coords.longitude;
+
+      console.log(this.myLat);
+      console.log(this.myLong);
+
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+
+  }
 
   loadMap() {
-    const mapOptions = {
+    const mapOptions: GoogleMapOptions = {
       controls: {
-        myLocationButton: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        streetViewControl: false,
-        fullscreenControl: false
+        myLocationButton: true
       },
-    };
+    }
 
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    const map = GoogleMaps.create( 'map', mapOptions );
+    map.one( GoogleMapsEvent.MAP_READY )
+    .then( ( data: any ) => {
+      const coordinates: LatLng = new LatLng( this.myLat, this.myLong );
 
-    // this.geolocation.getCurrentPosition().then( pos => {
-    //   const LatLang = new google.maps.LatLang(pos.coords.latitude, pos.coords.longitude);
-    //   this.map.setCenter(LatLang);
-    // });
+      const position = {
+        target: coordinates,
+        zoom: 15
+      };
 
+      map.animateCamera(position);
+
+      const markerOptions: MarkerOptions = {
+        position: coordinates,
+        title: 'Your are here !'
+      };
+
+      const marker = map.addMarker( markerOptions )
+      .then( ( marker: Marker ) => {
+        marker.showInfoWindow();
+      });
+    });
   }
 
 }

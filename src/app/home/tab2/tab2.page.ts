@@ -14,28 +14,28 @@ export class Tab2Page implements OnInit {
         {
           bidId: 1,
           driverName: 'Malinga',
-          prof_pic: 'assets/icon/a.jpg',
+          prof_pic: 'assets/icon/lg3.jpg',
           budget : 25000,
           vehicle: 'Toyota Rocco'
         },
         {
           bidId: 2,
           driverName: 'Kule',
-          prof_pic: 'assets/icon/a.jpg',
+          prof_pic: 'assets/icon/lg3.jpg',
           budget : 15000,
           vehicle: 'BMW M5 Sport'
         },
         {
           bidId: 2,
           driverName: 'Kule',
-          prof_pic: 'assets/icon/a.jpg',
+          prof_pic: 'assets/icon/lg3.jpg',
           budget : 15000,
           vehicle: 'BMW M5 Sport'
         },
         {
           bidId: 2,
           driverName: 'Kule',
-          prof_pic: 'assets/icon/a.jpg',
+          prof_pic: 'assets/icon/lg5.png',
           budget : 15000,
           vehicle: 'BMW M5 Sport'
         }

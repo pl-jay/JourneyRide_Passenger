@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../../services/notification/notification.service';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -22,7 +23,9 @@ export class JourneyplanPage implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private geolocation: Geolocation,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              public alertController: AlertController) { }
+              
 
   ngOnInit() {
     this.journeyplanForm = this.formBuilder.group({
@@ -70,10 +73,34 @@ export class JourneyplanPage implements OnInit {
         this.myLong = resp.coords.longitude;
         console.log(this.myLat);
         console.log(this.myLong);
-        this.notificationService.showSuccessAlert('Latitude: ' + this.myLat+' Logntitude: '+this.myLong)
+        this.notificationService.showSuccessAlert('Latitude: ' + this.myLat + ' Logntitude: ' + this.myLong);
      }).catch((error) => {
       this.notificationService.showErrorAlert(error.message);
      });
+  }
+
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: 'Is there anything to change',
+      buttons: [
+        {
+          text: 'Yes',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'No',
+          handler: () => {
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }

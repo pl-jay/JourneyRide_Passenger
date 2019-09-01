@@ -63,7 +63,7 @@ export class LoginPage implements OnInit {
     ).subscribe(
       (res) => {
         loading.dismiss();
-        this.notificationService.showSuccessAlert('Loggin success !');
+        //this.notificationService.showSuccessAlert('Loggin success !');
         this.navCtrl.navigateForward('/');
       },
       (err) => {

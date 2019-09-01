@@ -5,8 +5,22 @@
     <h1>Welcome to Journey Ride Passengers</h1>
     <h5>The <b>Journey Ride</b> is a safest way to travel.</h5>
     <h6>Get started right away</h6>
-    <ion-button routerLink="/journey" expand="default" color="primary">Create journey</ion-button>
-    <ion-button expand="default" color="primary" (click)="logout()">LOGOUT</ion-button>
+    <ion-button expand="default" color="medium" (click)="logout()">LOGOUT</ion-button>
+  </ion-slide>
+  <ion-slide>
+  <ion-grid>
+    <ion-row>
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <div padding>
+          <h5>Create Journey Plan here </h5>
+          <ion-button routerLink="/journey" expand="default" color="medium">Create journey</ion-button>
+          <h5>Cancel Journey Plan here </h5>
+          <ion-button routerLink="/journey" expand="default" color="medium">Cancel journey</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   </ion-slide>
 </ion-slides>
 </ion-content>

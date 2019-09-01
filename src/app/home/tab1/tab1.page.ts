@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { GAuthenticateService } from '../../services/g-auth/gauthentication.service';
 import { NotificationService } from '../../services/notification/notification.service';
+import { StorageService } from '../../services/storage/storage.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: './tab1.page.html',
@@ -9,7 +10,9 @@ import { NotificationService } from '../../services/notification/notification.se
 })
 export class Tab1Page implements OnInit {
 
-  constructor(private gAuth: GAuthenticateService, private notificationService: NotificationService) { }
+  constructor(private gAuth: GAuthenticateService, 
+              private notificationService: NotificationService, 
+              private storageService: StorageService) { }
 
   ngOnInit() {
   }
