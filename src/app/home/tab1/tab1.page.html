@@ -1,26 +1,26 @@
-<ion-content fullscreen padding scroll-y="false">
-<ion-slides>
-  <ion-slide>
-    <img src="../../../../assets/icon/logo3.png"/>
-    <h1>Welcome to Journey Ride Passengers</h1>
-    <h5>The <b>Journey Ride</b> is a safest way to travel.</h5>
-    <h6>Get started right away</h6>
-    <ion-button expand="default" color="medium" (click)="logout()">LOGOUT</ion-button>
-  </ion-slide>
-  <ion-slide>
-  <ion-grid>
-    <ion-row>
-      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <div padding>
-          <h5>Create Journey Plan here </h5>
-          <ion-button routerLink="/journey" expand="default" color="medium">Create journey</ion-button>
-          <h5>Cancel Journey Plan here </h5>
-          <ion-button routerLink="/journey" expand="default" color="medium">Cancel journey</ion-button>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/home/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title text-center></ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  </ion-slide>
-</ion-slides>
+<ion-content fullscreen padding>
+<div #map class="map"></div>
+ <ion-grid>
+  <ion-row >
+    <ion-col ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <div padding class="buttons">
+        <ion-button [routerLink]="['/home/journeyplan']" expand="block" shape="round" color="medium">Start New journey</ion-button>
+        <ion-button [routerLink]="['/home/tab2']" expand="block" shape="round" color="medium">Drivers Notification</ion-button>
+        <ion-button  expand="block" shape="round" color="medium">Drivers Confirmation</ion-button>
+        </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
 </ion-content>

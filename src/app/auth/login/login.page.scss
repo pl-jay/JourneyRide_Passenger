@@ -4,8 +4,10 @@ form {
     padding-top: 25%;
 }
 
-ion-button{
-    --background: #062f77;
+ion-input{
+    border-radius: 3em !important;
+    border-color: #1a1919 !important;
+    background: #f5eeed;
 }
 
 .login-btn {
@@ -21,15 +23,6 @@ ion-button{
     background-size: 100%;
   }
 
-  .error-message {
-    min-height: 2.2rem;
-    padding-left: 20px !important;
-    p {
-      margin: 2px 0;
-      font-size: 80%;
-      color: #ff6153;
-    }
-    .item-inner {
-      border-bottom: 0 !important;
-    }
+  .swiper-slide {
+    display: block;
   }

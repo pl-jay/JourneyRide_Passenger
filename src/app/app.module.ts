@@ -17,6 +17,7 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ModalPageModule } from '../app/home/modal/modal.module';
 
 import { environment } from 'src/environments/environment';
 import { GAuthenticateService } from './services/g-auth/gauthentication.service';
@@ -43,6 +44,7 @@ firebase.initializeApp(environment.firebase);
   entryComponents: [],
   imports: [
     BrowserModule,
+    ModalPageModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     JwtModule.forRoot({

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
 
 @Component({
   selector: 'app-tab2',
@@ -42,7 +44,7 @@ export class Tab2Page implements OnInit {
       ]
   }
 
-  constructor() { }
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
 
@@ -57,6 +59,20 @@ export class Tab2Page implements OnInit {
 
   onClick(id) {
     alert(id + 'trip confirmed !');
+  }
+
+  
+  async presentModal() {
+
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      
+    });
+
+    modal.onDidDismiss().then((dataRet) => {
+     
+    })
+    return await modal.present();
   }
 
 }

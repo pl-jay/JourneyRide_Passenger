@@ -63,7 +63,7 @@ export class LoginPage implements OnInit {
     ).subscribe(
       (res) => {
         loading.dismiss();
-        //this.notificationService.showSuccessAlert('Loggin success !');
+        // this.notificationService.showSuccessAlert('Loggin success !');
         this.navCtrl.navigateForward('/');
       },
       (err) => {
@@ -77,5 +77,8 @@ export class LoginPage implements OnInit {
   }
   goToPasswordResetPage() {
     this.navCtrl.navigateForward('/auth/passwordreset');
+  }
+  loggin() {
+    this.navCtrl.navigateForward('/home/tab1');
   }
 }

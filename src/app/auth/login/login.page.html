@@ -1,53 +1,37 @@
-<ion-content padding>
-  <form class="form" [formGroup]="credentialsForm"  (ngSubmit)="loginUser(credentialsForm.value)">
-  <ion-grid>
+<ion-content fullscreen padding scroll-y="false">
+<ion-slides>
+  <ion-slide>
+    <img alt="LOGO" src="../../assets/logo1.jpg"/>
+    <h4>Welcome to Journey-Ride</h4>
+    <ion-button color="medium" shape="round">As A Passenger</ion-button>
+  </ion-slide>
+
+   <ion-slide>
+   <ion-grid>
     <ion-row>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
-          <div text-center>
-            <h3 color="tertiary">Login</h3>
-          </div>
-          <ion-item>
-            <ion-label  position="floating" color="tertiary">Email</ion-label>
-            <ion-input type="text" formControlName="email"></ion-input>
-          </ion-item>
-          
-          
-            <div class="error-message">    
-              <ng-container *ngFor="let validation of validationMessages.email">
-                <p class="error-message" *ngIf="credentialsForm.get('email').hasError(validation.type) && (credentialsForm.get('email').dirty || credentialsForm.get('email').touched)">
-                  {{ validation.message }}
-                </p>
-              </ng-container>
-            </div>
-
-          <ion-item>
-            <ion-label  position="floating" color="tertiary">Password</ion-label>
-            <ion-input type="password" formControlName="password" class="form-control" required></ion-input>
-          </ion-item>
-
-         
-            <div class="error-message">
-              <ng-container *ngFor="let validation of validationMessages.password">
-                <p class="error-message" *ngIf="credentialsForm.get('password').hasError(validation.type) && (credentialsForm.get('password').dirty || credentialsForm.get('password').touched)">
-                  {{ validation.message }}
-                </p>
-              </ng-container>
-            </div>
-          
-
+          <h4>Welcome to Journey-Rider</h4>
+          <ion-button expand="block" color="medium" shape="round">Log In</ion-button>
+          <ion-button expand="block" [routerLink]="['/auth/register']" color="medium" shape="round">Sign Up</ion-button>
         </div>
-    
-      <div class="login-btn">
-        <ion-button expand="block" color="medium" type="submit"  [disabled]="!credentialsForm.valid">Login</ion-button>
-      </div>
-
-      <div padding>
-        <p class="go-to-register">No account yet? <a (click)="goToRegisterPage()">Create an account.</a></p>
-        <p class="go-to-register">Forget Password ? <a (click)="goToPasswordResetPage()">Reset Password.</a></p>
-      </div>
       </ion-col>
-     </ion-row>
-    </ion-grid>
-  </form>
+    </ion-row>
+   </ion-grid>
+  </ion-slide>
+
+   <ion-slide>
+   <ion-grid>
+    <ion-row>
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <ion-input type="text" placeholder="Email"></ion-input>
+        <ion-input type="text" placeholder="Password"></ion-input>
+        <ion-button expand="block" color="medium" shape="round" (click)="loggin()">Log In</ion-button>
+        <ion-button expand="block" color="danger" shape="round">Log In with Google</ion-button>   
+      </ion-col>
+    </ion-row>
+   </ion-grid>
+  </ion-slide>
+
+</ion-slides>
 </ion-content>

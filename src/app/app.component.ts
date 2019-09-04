@@ -16,6 +16,31 @@ import { GAuthenticateService } from '../app/services/g-auth/gauthentication.ser
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
+  public appPages = [
+    {
+      title: 'Home',
+      url: '/home/tab1'
+    },
+    {
+      title: 'Start New Journey',
+      url: '/home/journeyplan'
+    },
+    {
+      title: 'Driver Notification',
+      url: '/home/tab2',
+    },
+    {
+      title: 'Trip Canselation',
+      url: '/home/tab3'
+    },
+    {
+      title: 'Update Your Details',
+      url: '/home/tab3'
+    }
+
+  ];
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,

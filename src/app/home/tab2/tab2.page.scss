@@ -18,3 +18,12 @@ ion-item > p, h4 {
   text-shadow: 1.0em;
 }
 
+ion-card {
+  border-radius: 3em !important;
+  background: #BFDFC7;
+  padding-bottom: 1em !important;
+    p {
+        font-size: 1em !important;
+        padding-left: 0.5em !important;
+    }
+}

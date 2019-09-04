@@ -95,6 +95,7 @@ export class JourneyplanPage implements OnInit {
           text: 'No',
           handler: () => {
             console.log('Confirm Okay');
+            console.log(this.journeyplanForm.value);
           }
         }
       ]
