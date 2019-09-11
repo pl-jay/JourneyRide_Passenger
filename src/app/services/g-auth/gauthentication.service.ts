@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase/app';
-
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { NotificationService } from '../notification/notification.service';
 import { StorageService } from '../storage/storage.service';
 import { BehaviorSubject, from } from 'rxjs';
 import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-const TOKEN_KEY = '';
-const UID       = '';
-const URL       = environment.url;
+
+const URL = environment.url;
  
 @Injectable()
 export class GAuthenticateService {
@@ -21,11 +17,10 @@ export class GAuthenticateService {
   authenticationState = new BehaviorSubject(false);
   user = null;
 
-  constructor(private notificationService: NotificationService,
-              private storageService: StorageService,
-              private jwtHelper: JwtHelperService,
+  constructor(private storageService: StorageService,
               private loadingController: LoadingController,
-              private httpClient: HttpClient
+              private httpClient: HttpClient,
+              private notify: NotificationService
               ) { }
 
   async loginmethod(value) {
@@ -36,20 +31,43 @@ export class GAuthenticateService {
       translucent: true,
       cssClass: 'custom-class custom-loading'
     });
-    await loading.present();
 
     return from(this.httpClient.post(URL + 'login.php', value)).pipe(
       finalize(() => loading.dismiss())
     ).subscribe((res) => {
-      this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
-        this.checkToken();
-      });
+      if (res[`success`] == 1) {
+        this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
+          this.checkToken();
+          this.notify.showSuccessAlert('Loggin Success !');
+        });
+      } else {
+        this.notification(res);
+      }
+    });
+
+  }
+
+  async logoutmethod() {
+
+    const loading = await this.loadingController.create({
+      spinner: 'circles',
+      message: 'Loggin out...',
+      translucent: true,
+      cssClass: 'custom-class custom-loading'
+    });
+    await loading.present();
+
+    return from(this.storageService.clearStorageData()).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe((res) => {
+      this.checkToken();
+      this.notify.showSuccessAlert('Logout Success !');
     });
 
   }
 
   async registermethod(value) {
-    console.log(value)
+    
     const loading = await this.loadingController.create({
       spinner: 'circles',
       message: 'Creating account...',
@@ -61,9 +79,14 @@ export class GAuthenticateService {
     return from(this.httpClient.post(URL + 'register.php', value)).pipe(
       finalize(() => loading.dismiss())
     ).subscribe((res) => {
-      this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
-        this.checkToken();
-      });
+      if(res[`success`] == 1) {
+        this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
+          this.checkToken();
+        });
+        this.notify.showSuccessAlert('Registration Success !');
+      } else {
+        this.notify.showErrorAlert(res[`error`]);
+      }
     });
 
   }
@@ -82,4 +105,9 @@ export class GAuthenticateService {
     return this.authenticationState.value;
   }
 
+  notification(value) {
+    if (value[`error`] != null) {
+      this.notify.showErrorAlert(value[`error`]);
+    } 
+  }
 }

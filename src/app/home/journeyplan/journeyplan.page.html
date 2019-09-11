@@ -11,7 +11,7 @@
 </ion-header>
 <ion-content fullscreen padding scrolY="true">
 
-  <form class="form" [formGroup]="journeyplanForm" (ngSubmit)="onSubmit(journeyplanForm.value)"> 
+  <form class="form" [formGroup]="journeyplanForm" (ngSubmit)="presentAlertConfirm(journeyplanForm.value)"> 
         <ion-grid>
           <ion-row >
             <ion-col>
@@ -85,7 +85,12 @@
             </ion-col>
           </ion-row>
 
-          <ion-input *ngIf="true" formControlName="user_id">{{uid}}</ion-input>
+          <ion-row>
+            <ion-col>
+              <h6> Your user Id: {{uid}}</h6>
+              <ion-input formControlName="user_id" placeholder="Your User ID"> </ion-input>
+            </ion-col>
+          </ion-row>
 
       <ion-button expand="block" color="medium" shape="round" type="submit">Apply Journey</ion-button>
   </form>

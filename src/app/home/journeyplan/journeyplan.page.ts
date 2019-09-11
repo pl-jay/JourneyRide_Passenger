@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
-
-import { NotificationService } from '../../services/notification/notification.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
+
 
 const URL = environment.url + 'passenger/start_new_trip.php';
 @Component({
@@ -23,33 +21,58 @@ export class JourneyplanPage implements OnInit {
   tripDetails: any;
   uid: any;
 
+  validationMessage = {
+     type: 'required', message: 'All fields are required.'
+  };
+
   constructor(private formBuilder: FormBuilder,
-              private router: Router,
-              private geolocation: Geolocation,
-              private notificationService: NotificationService,
               public alertController: AlertController,
               private httpClient: HttpClient,
-              private storage: StorageService) { }
+              private storage: StorageService,
+              private navCtrl: NavController,
+              private notify: NotificationService) { }
 
   ngOnInit() {
 
     this.storage.getStorageData('user_token').then((res) => {
       this.uid = res;
-      console.log(this.uid);
+      alert(res)
     });
 
     this.journeyplanForm = this.formBuilder.group({
-      start_location: [''],
-      way_point: [''],
-      number_of_passenger: [''],
-      travel_location: [''],
-      arrival_date: [''],
-      departure_date: [''],
-      pickup_time: [''],
-      ac_condition: [''],
-      vehicle_type: [''],
-      trip_description: [''],
-      user_id: this.uid
+      start_location: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      way_point: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      number_of_passenger: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      travel_location: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      arrival_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      departure_date: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      pickup_time: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      ac_condition: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      vehicle_type: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      trip_description: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      user_id: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
     });
   }
 
@@ -60,11 +83,14 @@ export class JourneyplanPage implements OnInit {
     console.log(this.tripDetails);
 
     this.httpClient.post(URL, this.tripDetails).subscribe((res) => {
-      console.log(res);
+      if (res[`trip_id`] != null) {
+        this.navCtrl.navigateBack('/home/tab1');
+        this.notify.showSuccessAlert('Trip plan Sent to Drivers');
+      }
     });
   }
 
-  async presentAlertConfirm() {
+  async presentAlertConfirm(value) {
     const alert = await this.alertController.create({
       header: 'Confirm!',
       message: 'Is there anything to change',
@@ -79,8 +105,7 @@ export class JourneyplanPage implements OnInit {
         }, {
           text: 'No',
           handler: () => {
-            console.log('Confirm Okay');
-            console.log(this.journeyplanForm.value);
+            this.onSubmit(value);
           }
         }
       ]

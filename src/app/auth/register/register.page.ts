@@ -7,9 +7,7 @@ import { GAuthenticateService } from '../../services/g-auth/gauthentication.serv
 import { NotificationService } from '../../services/notification/notification.service';
 import { StorageService } from '../../services/storage/storage.service';
 
-import { from } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -68,6 +66,7 @@ export class RegisterPage implements OnInit {
           email: value.email,
           password: value.password
       }
+
       this.newUser = JSON.stringify(user);
 
       this.authService.registermethod(this.newUser);

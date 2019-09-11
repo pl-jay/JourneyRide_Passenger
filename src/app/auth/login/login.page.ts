@@ -3,14 +3,6 @@ import { GAuthenticateService } from '../../services/g-auth/gauthentication.serv
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import { NotificationService } from '../../services/notification/notification.service';
-import { NavController } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular';
-
-import { from } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -32,12 +24,7 @@ export class LoginPage implements OnInit {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder,
-              private gAuthService: GAuthenticateService,
-              private navCtrl: NavController,
-              private loadingController: LoadingController,
-              private notificationService: NotificationService,
-              private httpClient: HttpClient) { }
+  constructor(private formBuilder: FormBuilder, private gAuthService: GAuthenticateService,) { }
 
   ngOnInit() {
     this.credentialsForm = this.formBuilder.group({
@@ -54,16 +41,9 @@ export class LoginPage implements OnInit {
 
   async loginUser(value) {
     this.newUser = JSON.stringify(value);
-    this.gAuthService.loginmethod(this.newUser);
+    this.gAuthService.loginmethod(this.newUser).then((res) => {
+      console.log(res);
+    });
   }
 
-  goToRegisterPage() {
-    this.navCtrl.navigateForward('/auth/register');
-  }
-  goToPasswordResetPage() {
-    this.navCtrl.navigateForward('/auth/passwordreset');
-  }
-  loggin() {
-    this.navCtrl.navigateForward('/home/tab1');
-  }
 }

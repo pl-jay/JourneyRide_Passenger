@@ -13,9 +13,29 @@
     <ion-row padding>
       <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
     </ion-row>
-    <ion-row padding>
-      <ion-input type="text" formControlName="password" placeholder="Password"></ion-input>
+    <ion-row>
+      <div class="error-message">    
+        <ng-container *ngFor="let validation of validationMessages.email">
+          <p class="error-message" *ngIf="credentialsForm.get('email').hasError(validation.type) && (credentialsForm.get('email').dirty || credentialsForm.get('email').touched)">
+            {{ validation.message }}
+          </p>
+        </ng-container>
+      </div>
     </ion-row>
+
+    <ion-row padding>
+      <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+    </ion-row>
+    <ion-row>
+      <div class="error-message">
+        <ng-container *ngFor="let validation of validationMessages.password">
+          <p class="error-message" *ngIf="credentialsForm.get('password').hasError(validation.type) && (credentialsForm.get('password').dirty || credentialsForm.get('password').touched)">
+            {{ validation.message }}
+          </p>
+        </ng-container>
+      </div>
+    </ion-row>
+
       <ion-button expand="block" type="submit" color="medium" shape="round">Log In</ion-button>
   </form>
     <ion-row>
