@@ -9,6 +9,7 @@ import { LoadingController } from '@ionic/angular';
 
 import { from } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ import { finalize } from 'rxjs/operators';
 export class LoginPage implements OnInit {
 
   credentialsForm: FormGroup;
+  newUser: any;
 
   validationMessages = {
     email: [
@@ -34,7 +36,8 @@ export class LoginPage implements OnInit {
               private gAuthService: GAuthenticateService,
               private navCtrl: NavController,
               private loadingController: LoadingController,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private httpClient: HttpClient) { }
 
   ngOnInit() {
     this.credentialsForm = this.formBuilder.group({
@@ -50,26 +53,8 @@ export class LoginPage implements OnInit {
   }
 
   async loginUser(value) {
-    const loading = await this.loadingController.create({
-      spinner: 'circles',
-      message: 'Please wait...',
-      translucent: true,
-      cssClass: 'custom-class custom-loading'
-    });
-    await loading.present();
-
-    from(this.gAuthService.loginUser(value)).pipe(
-      finalize(() => loading.dismiss())
-    ).subscribe(
-      (res) => {
-        loading.dismiss();
-        // this.notificationService.showSuccessAlert('Loggin success !');
-        this.navCtrl.navigateForward('/');
-      },
-      (err) => {
-        this.notificationService.showErrorAlert(err.message);
-      }
-    )
+    this.newUser = JSON.stringify(value);
+    this.gAuthService.loginmethod(this.newUser);
   }
 
   goToRegisterPage() {

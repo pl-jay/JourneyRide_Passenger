@@ -6,77 +6,87 @@
     <ion-buttons slot="end">
       <ion-back-button defaultHref="/home/tab1"></ion-back-button>
     </ion-buttons>
-    <ion-title text-center></ion-title>
+    <ion-title text-center>Create a Plan</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen padding scrolY="true">
 
-  <form [formGroup]="journeyplanForm" (ngSubmit)="onSubmit()"> 
+  <form class="form" [formGroup]="journeyplanForm" (ngSubmit)="onSubmit(journeyplanForm.value)"> 
         <ion-grid>
-          <ion-row padding>
-            <ion-input type="text" placeholder="Start Location/ Pick Up" formControlName="loc_from"></ion-input>
+          <ion-row >
+            <ion-col>
+                <h6>Start Location:</h6>
+                <ion-input type="text" placeholder="Start Location" formControlName="start_location"></ion-input>
+            </ion-col>
           </ion-row>
-          <ion-row padding>
-            <ion-input type="text" formControlName="loc_from" placeholder="Destination"></ion-input>
+
+          <ion-row >
+            <ion-col>
+                <h6>Destination:</h6>
+                <ion-input type="text" formControlName="travel_location" placeholder="Destination"></ion-input>
+            </ion-col>
+          </ion-row>
+      
+          <ion-row >
+            <ion-col>
+                <h6>Number of Passenger:</h6>
+                <ion-input type="text" placeholder="Number of Passenger" formControlName="number_of_passenger"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row >
+            <ion-datetime placeholder="PickUp Time"  display-format="h:mm A" picker-format="h:mm A" formControlName="pickup_time"></ion-datetime>
+          </ion-row>
+
+          <ion-row >
+            
+          <ion-col>
+              <h6>From :</h6>
+              <ion-datetime formControlName="arrival_date" value="2012-12-15"></ion-datetime>
+          </ion-col>
+        </ion-row>
+
+        <ion-row >
+          <ion-col>
+              <h6>To :</h6>
+              <ion-datetime formControlName="departure_date" value="2012-12-15" placeholder="To"></ion-datetime>
+          </ion-col>
+        </ion-row>
+
+        <ion-row >
+            <ion-col>
+                <h6>To :</h6>
+                <ion-input formControlName="way_point" placeholder="Waypoint"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row >
+          <ion-list>
+          <ion-item>
+          <ion-label>Vehicle Type</ion-label>
+            <ion-select okText="Okay" cancelText="Dismiss" formControlName="vehicle_type">
+              <ion-select-option value="van" checked>Van</ion-select-option>
+              <ion-select-option value="car">Car</ion-select-option>
+              <ion-select-option value="bus">Bus</ion-select-option>
+            </ion-select>
+          </ion-item>
+          </ion-list>
+          <ion-item>
+              <ion-label>AC :</ion-label>
+              <ion-toggle slot="end" formControlName="ac_condition" color="medium" checked></ion-toggle>
+            </ion-item>
           </ion-row>
         </ion-grid>
-        
-          
-        
 
-        
-        <ion-item>
-          <ion-label position="floating">Number of Passenger</ion-label>
-          <ion-input type="number" formControlName="no_psngr"></ion-input>
-        </ion-item>
+        <ion-row>
+          <ion-col>
+              <h6>Description</h6>
+              <ion-textarea formControlName="trip_description" placeholder="Description"></ion-textarea>
+            </ion-col>
+          </ion-row>
 
-         <ion-item>
-          <ion-label>PickUp Time</ion-label>
-          <ion-datetime display-format="h:mm A" picker-format="h:mm A" formControlName="pickup_time"></ion-datetime>
-        </ion-item>
+          <ion-input *ngIf="true" formControlName="user_id">{{uid}}</ion-input>
 
-        <ion-item>
-          <ion-datetime formControlName="date_from" value="2012-12-15"></ion-datetime>
-          <ion-datetime formControlName="date_to" value="2012-12-15"></ion-datetime>
-        </ion-item>
-
-          <ion-list>
-
-            <ion-item>
-              <ion-label>Vehicle Type</ion-label>
-              <ion-select value="van" okText="Okay" cancelText="Dismiss" formControlName="vehicle_type">
-                <ion-select-option value="van">Van</ion-select-option>
-                <ion-select-option value="car">Car</ion-select-option>
-                <ion-select-option value="bus">Bus</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-list>
-          
-          
-       
-        <ion-item>
-          <h4><ion-label>Vehicle Condition</ion-label></h4>
-            <ion-item>
-            <h5>AC</h5>
-              <ion-toggle formControlName="vehicle_condition" color="medium"></ion-toggle>
-            </ion-item>          
-        </ion-item>
-
-        <ion-item>
-          <div formArrayName="waypoints">
-          <h6>Waypoints </h6>
-            <section [formGroupName]="i" *ngFor="let tech of journeyplanForm.controls.waypoints.controls; let i = index">
-            <ion-item>
-              <ion-label>wp {{ i + 1 }}: </ion-label>
-              <ion-input type="text" maxlength="50" formControlName="waypoint"> </ion-input>
-              <ion-icon name="close-circle-outline" color="primary "(click)="removeInputField(i)"></ion-icon>
-            </ion-item>
-            </section>
-            <ion-icon name="add-circle-outline" color="primary" (click)="addNewInputField()"></ion-icon>
-          </div>
-        </ion-item>
-
-      <ion-button expand="block" color="medium" shape="round" (click)="presentAlertConfirm()">Apply Journey</ion-button>
-
+      <ion-button expand="block" color="medium" shape="round" type="submit">Apply Journey</ion-button>
   </form>
 </ion-content>

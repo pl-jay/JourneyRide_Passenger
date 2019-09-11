@@ -2,34 +2,24 @@
 <ion-slides>
   <ion-slide>
     <img alt="LOGO" src="../../assets/logo1.jpg"/>
-    <h4>Welcome to Journey-Ride</h4>
-    <ion-button color="medium" shape="round">As A Passenger</ion-button>
+    <h4>Welcome to JourneyRide-Passenger</h4>
+    <h5>Slide to Login </h5>
+    <ion-button expand="block" [routerLink]="['/auth/register']" color="medium" shape="round">Sign Up</ion-button>
   </ion-slide>
 
    <ion-slide>
-   <ion-grid>
-    <ion-row>
-      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <div padding>
-          <h4>Welcome to Journey-Rider</h4>
-          <ion-button expand="block" color="medium" shape="round">Log In</ion-button>
-          <ion-button expand="block" [routerLink]="['/auth/register']" color="medium" shape="round">Sign Up</ion-button>
-        </div>
-      </ion-col>
+   <ion-grid class="loggin">
+   <form class="form" [formGroup]="credentialsForm"  (ngSubmit)="loginUser(credentialsForm.value)">
+    <ion-row padding>
+      <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
     </ion-row>
-   </ion-grid>
-  </ion-slide>
-
-   <ion-slide>
-   <ion-grid>
-    <ion-row>
-      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <ion-input type="text" placeholder="Email"></ion-input>
-        <ion-input type="text" placeholder="Password"></ion-input>
-        <ion-button expand="block" color="medium" shape="round" (click)="loggin()">Log In</ion-button>
-        <ion-button expand="block" color="danger" shape="round">Log In with Google</ion-button>   
-      </ion-col>
+    <ion-row padding>
+      <ion-input type="text" formControlName="password" placeholder="Password"></ion-input>
     </ion-row>
+      <ion-button expand="block" type="submit" color="medium" shape="round">Log In</ion-button>
+  </form>
+    <ion-row>
+   </ion-row>
    </ion-grid>
   </ion-slide>
 

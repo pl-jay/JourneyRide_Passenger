@@ -18,12 +18,18 @@ export class Tab1Page implements OnInit {
     
   }
 
-  logout() {
-    this.gAuth.logoutUser().then((res) => {
-      this.notificationService.showSuccessAlert('You logged Out !');
-    }).catch((err) => {
-      this.notificationService.showErrorAlert(err.message);
-      throw new Error(err);
+  // logout() {
+  //   this.gAuth.logoutUser().then((res) => {
+  //     this.notificationService.showSuccessAlert('You logged Out !');
+  //   }).catch((err) => {
+  //     this.notificationService.showErrorAlert(err.message);
+  //     throw new Error(err);
+  //   })
+  // }
+
+  getRegId() {
+    this.storageService.getStorageData('device_redId').then((res) =>{
+      alert(res);
     })
   }
 }

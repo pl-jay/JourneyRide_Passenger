@@ -3,11 +3,14 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@ang
 import { Router } from '@angular/router';
 
 import { NotificationService } from '../../services/notification/notification.service';
+import { environment } from '../../../environments/environment';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AlertController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
-
+const URL = environment.url + 'passenger/start_new_trip.php';
 @Component({
   selector: 'app-journeyplan',
   templateUrl: './journeyplan.page.html',
@@ -17,66 +20,48 @@ import { AlertController } from '@ionic/angular';
 export class JourneyplanPage implements OnInit {
 
   journeyplanForm: FormGroup;
-  myLat: any;
-  myLong: any;
+  tripDetails: any;
+  uid: any;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private geolocation: Geolocation,
               private notificationService: NotificationService,
-              public alertController: AlertController) { }
-              
+              public alertController: AlertController,
+              private httpClient: HttpClient,
+              private storage: StorageService) { }
 
   ngOnInit() {
+
+    this.storage.getStorageData('user_token').then((res) => {
+      this.uid = res;
+      console.log(this.uid);
+    });
+
     this.journeyplanForm = this.formBuilder.group({
-      loc_from: [''],
-      waypoints: this.formBuilder.array([
-        this.initWaypointFields()
-      ]),
-      no_psngr: [''],
-      loc_pickup: [''],
-      no_nights: [''],
-      date_from: [''],
-      date_to: [''],
+      start_location: [''],
+      way_point: [''],
+      number_of_passenger: [''],
+      travel_location: [''],
+      arrival_date: [''],
+      departure_date: [''],
       pickup_time: [''],
-      vehicle_condition: [''],
+      ac_condition: [''],
       vehicle_type: [''],
-      desc: ['']
+      trip_description: [''],
+      user_id: this.uid
     });
   }
 
-  initWaypointFields(): FormGroup {
-    return this.formBuilder.group({
-        waypoint : ['', Validators.required]
+
+
+  onSubmit(value) {
+    this.tripDetails = JSON.stringify(value);
+    console.log(this.tripDetails);
+
+    this.httpClient.post(URL, this.tripDetails).subscribe((res) => {
+      console.log(res);
     });
-  }
-
-  addNewInputField() {
-    const control =  this.journeyplanForm.controls.waypoints as FormArray;
-    control.push(this.initWaypointFields());
-  }
-
-  removeInputField(i: number) {
-   const control = this.journeyplanForm.controls.waypoints as FormArray;
-   control.removeAt(i);
-}
-
-  onSubmit() {
-    console.log(this.journeyplanForm.value);
-    this.router.navigate(['/home/tab2']);
-  }
-
-  getCurrentPlaceCords() {
-    this.geolocation.getCurrentPosition().then(
-      (resp) => {
-        this.myLat = resp.coords.latitude;
-        this.myLong = resp.coords.longitude;
-        console.log(this.myLat);
-        console.log(this.myLong);
-        this.notificationService.showSuccessAlert('Latitude: ' + this.myLat + ' Logntitude: ' + this.myLong);
-     }).catch((error) => {
-      this.notificationService.showErrorAlert(error.message);
-     });
   }
 
   async presentAlertConfirm() {

@@ -8,9 +8,12 @@ import { StorageService } from '../storage/storage.service';
 import { BehaviorSubject, from } from 'rxjs';
 import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 const TOKEN_KEY = '';
 const UID       = '';
+const URL       = environment.url;
  
 @Injectable()
 export class GAuthenticateService {
@@ -21,74 +24,56 @@ export class GAuthenticateService {
   constructor(private notificationService: NotificationService,
               private storageService: StorageService,
               private jwtHelper: JwtHelperService,
-              private loadingController: LoadingController) { }
+              private loadingController: LoadingController,
+              private httpClient: HttpClient
+              ) { }
 
-  registerUser(email, password): Promise<any> {
-    return firebase.auth().createUserWithEmailAndPassword(email, password).then(
-      (newUserCredential: firebase.auth.UserCredential) => {
-        firebase.firestore().doc(`/userProfile/${newUserCredential.user.uid}`).set({email});
-      }).then( () => {
-        this.setUsertokenStorage();
-        this.authenticationState.next(true);
-      })
-      .catch( error => {
-        this.authenticationState.next(false);
-        throw new Error(error);
-      });
-  }
-
-  loginUser(value): Promise<firebase.auth.UserCredential | void> {
-    return firebase.auth()
-    .signInWithEmailAndPassword(value.email, value.password).then((res) => {
-      this.setUsertokenStorage();
-      this.authenticationState.next(true);
-    });
-  }
-
-  async logoutUser() {
-
+  async loginmethod(value) {
+    console.log(value)
     const loading = await this.loadingController.create({
       spinner: 'circles',
-      message: 'Loggin out...',
+      message: 'Loggin in...',
       translucent: true,
       cssClass: 'custom-class custom-loading'
     });
     await loading.present();
 
-    return from(firebase.auth().signOut()).pipe(
+    return from(this.httpClient.post(URL + 'login.php', value)).pipe(
       finalize(() => loading.dismiss())
-    ).subscribe(() => {
-      this.storageService.clearStorageData().then(() => {
-        this.authenticationState.next(false);
+    ).subscribe((res) => {
+      this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
+        this.checkToken();
       });
     });
-  }
- 
-  passwordReset(email): Promise<void> {
-    return firebase.auth().sendPasswordResetEmail(email);
+
   }
 
-  setUsertokenStorage() {
-    firebase.auth().onAuthStateChanged((result) => {
-      this.storageService.setStorageData('UID', result.uid);
-      result.getIdToken().then((token) => {
-        this.storageService.setStorageData('TOKEN_KEY', token);
+  async registermethod(value) {
+    console.log(value)
+    const loading = await this.loadingController.create({
+      spinner: 'circles',
+      message: 'Creating account...',
+      translucent: true,
+      cssClass: 'custom-class custom-loading'
+    });
+    await loading.present();
+
+    return from(this.httpClient.post(URL + 'register.php', value)).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe((res) => {
+      this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
+        this.checkToken();
       });
     });
+
   }
 
   checkToken() {
-    this.storageService.getStorageData('TOKEN_KEY').then((token) => {
+    this.storageService.getStorageData('user_token').then((token) => {
       if (token) {
-        const decoded   = this.jwtHelper.decodeToken(token);
-        const isExpired = this.jwtHelper.isTokenExpired(token);
-        if (!isExpired) {
-          this.user = decoded;
-          this.authenticationState.next(true);
-        } else {
-          this.storageService.removeStorageData('TOKEN_KEY');
-        }
         this.authenticationState.next(true);
+      } else {
+        this.authenticationState.next(false);
       }
     });
   }

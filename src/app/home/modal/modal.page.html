@@ -1,9 +1,35 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>modal</ion-title>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content fullscreen padding>
+  <ion-grid>
+    <ion-row padding>
+        <h4>Trip Budget and Description</h4>
+    </ion-row>
+    <ion-row padding>
+      
+    </ion-row>
+    <ion-row>
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <div padding class="buttons">
+          
+            <h5>
+              <p>Trip Id      : {{bidId}}</p>
+              <p>Drivers Name : {{driverName}}</p>
+              <p>Budget       : {{budget}}</p>
+              <p> Vehicle No   : {{vehicle}}</p>
+            </h5> 
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row padding align-center>
+        <ion-button expand="block" color="medium" shape="round" (click)="confirmTrip()">Confirm this Offer</ion-button>
+        <ion-button expand="block" color="danger" shape="round" (click)="closeModal()">Cancel</ion-button>
+    </ion-row>
+  </ion-grid>
 </ion-content>

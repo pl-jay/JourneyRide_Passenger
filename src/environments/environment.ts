@@ -4,15 +4,7 @@
 
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: 'AIzaSyALZLWngHGK__StH6WA2qjEzjn2cLjRdag',
-    authDomain: 'fp-journey-ride.firebaseapp.com',
-    databaseURL: 'https://fp-journey-ride.firebaseio.com',
-    projectId: 'fp-journey-ride',
-    storageBucket: '',
-    messagingSenderId: '118897244650',
-    appId: '1:118897244650:web:7338ded918ace4b7'
-  }
+  url: 'https://dirtbike.website/bll/'
 };
 
 /*

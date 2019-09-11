@@ -6,14 +6,14 @@
     <ion-buttons slot="end">
       <ion-back-button defaultHref="/home/tab1"></ion-back-button>
     </ion-buttons>
-    <ion-title text-center></ion-title>
+    <ion-title text-center>Drivers Notifications</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen padding scroll-y="true">
   <h4>Available Drivers</h4>
       
 
-    <ion-card *ngFor="let bid of bidDetails.bid1" (click)="presentModal()">
+    <ion-card *ngFor="let bid of bidDetails.bid1" (click)="presentModal(bid.bidId)">
       <ion-card-content>
       <ion-grid>
         <ion-row>

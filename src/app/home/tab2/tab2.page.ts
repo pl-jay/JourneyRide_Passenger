@@ -14,6 +14,13 @@ export class Tab2Page implements OnInit {
   bidDetails = {
       bid1: [
         {
+          bidId: 0,
+          driverName: 'Malinga1',
+          prof_pic: 'assets/icon/lg3.jpg',
+          budget : 21000,
+          vehicle: 'Toyota Rocco'
+        },
+        {
           bidId: 1,
           driverName: 'Malinga',
           prof_pic: 'assets/icon/lg3.jpg',
@@ -22,29 +29,31 @@ export class Tab2Page implements OnInit {
         },
         {
           bidId: 2,
-          driverName: 'Kule',
+          driverName: 'Kule2',
           prof_pic: 'assets/icon/lg3.jpg',
-          budget : 15000,
+          budget : 12000,
           vehicle: 'BMW M5 Sport'
         },
         {
-          bidId: 2,
-          driverName: 'Kule',
+          bidId: 3,
+          driverName: 'Kule3',
           prof_pic: 'assets/icon/lg3.jpg',
-          budget : 15000,
+          budget : 13000,
           vehicle: 'BMW M5 Sport'
         },
         {
-          bidId: 2,
-          driverName: 'Kule',
+          bidId: 4,
+          driverName: 'Kule4',
           prof_pic: 'assets/icon/lg5.png',
-          budget : 15000,
+          budget : 14000,
           vehicle: 'BMW M5 Sport'
         }
       ]
   }
 
   constructor(private modalController: ModalController) { }
+
+  DataRet: any;
 
   ngOnInit() {
 
@@ -62,16 +71,20 @@ export class Tab2Page implements OnInit {
   }
 
   
-  async presentModal() {
+  async presentModal(id) {
 
     const modal = await this.modalController.create({
       component: ModalPage,
-      
+      componentProps: {
+        details: this.bidDetails.bid1[id]
+      }
     });
 
     modal.onDidDismiss().then((dataRet) => {
-     
-    })
+      if (dataRet !== null) {
+        this.DataRet = dataRet.data;
+      }
+    });
     return await modal.present();
   }
 

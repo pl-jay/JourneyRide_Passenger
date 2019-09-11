@@ -1,21 +1,38 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/auth/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title text-center></ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content padding>
   <form class="form" [formGroup]="validationsForm"  (ngSubmit)="tryRegister(validationsForm.value)">
   <ion-grid>
-    <ion-row>
-      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <div text-center>
+        <ion-row>
+         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
             <h3>Register</h3>
-        </div>
-        <div padding>
-        <ion-input type="text" placeholder="First Name"></ion-input>
-        <ion-input type="text" placeholder="Last Name"></ion-input>
-        <ion-input type="text" placeholder="NIC"></ion-input>
-        <ion-input type="text" placeholder="Email"></ion-input>
-        <ion-input type="text" placeholder="Contact Number"></ion-input>
-        <ion-input type="text" placeholder="Password"></ion-input>
-        </div>
-      </ion-col>
-    </ion-row>
+          </div>
+         </ion-col>
+        </ion-row>
+        <ion-row padding>
+        <ion-input type="text" formControlName="username" placeholder="First Name"></ion-input>
+        </ion-row>
+       
+        <ion-row padding>
+        <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
+       </ion-row>
+      
+        <ion-row padding>
+        <ion-input type="text" formControlName="password" placeholder="Password"></ion-input>
+        </ion-row>
+        
+        <ion-row align-self-center>
+        <ion-button shape="round" expand="block" type="submit" color="medium">Register</ion-button>
+        </ion-row>
+     
   </ion-grid>
  </form>
   
