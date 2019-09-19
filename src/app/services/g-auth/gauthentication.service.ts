@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { NotificationService } from '../notification/notification.service';
 import { StorageService } from '../storage/storage.service';
-import { BehaviorSubject, from } from 'rxjs';
+
 import { LoadingController } from '@ionic/angular';
+import { BehaviorSubject, from } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';

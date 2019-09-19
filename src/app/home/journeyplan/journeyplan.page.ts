@@ -26,7 +26,7 @@ export class JourneyplanPage implements OnInit {
   };
 
   constructor(private formBuilder: FormBuilder,
-              public alertController: AlertController,
+              private alertController: AlertController,
               private httpClient: HttpClient,
               private storage: StorageService,
               private navCtrl: NavController,
@@ -34,8 +34,8 @@ export class JourneyplanPage implements OnInit {
 
   ngOnInit() {
 
-    this.storage.getStorageData('user_token').then((res) => {
-      
+    this.storage.getStorageData('user_id').then((res) => {
+      this.uid = res;
     });
 
     this.journeyplanForm = this.formBuilder.group({
@@ -72,10 +72,8 @@ export class JourneyplanPage implements OnInit {
     });
   }
 
-
-
   onSubmit(value) {
-    value.passenger_id = 1;
+    value.passenger_id = this.uid;
     this.tripDetails = value;
     this.httpClient.post(URL, this.tripDetails).subscribe((res) => {
       if (res[`trip_id`] != null) {

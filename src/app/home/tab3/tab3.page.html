@@ -12,24 +12,17 @@
 
 <ion-content>
 <ion-grid>
+  <form class="form" [formGroup]="feedbackForm" (ngSubmit)="sendFeedback(feedbackForm.value)"> 
   <ion-row>
     <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-    <img alt="prof_pic">
     </ion-col>
     <ion-col>
-      <h6>Name: </h6>
-      <p>Budget: </p>
-      <p>Journey </p>
-      <p>Date: </p>
-      <p>Pickup Time </p>
-      <p>Number of Passenger:</p>
-      <p>Navigation Points:</p>
-      <ion-textarea placeholder="Feedback"></ion-textarea>
+      <ion-textarea formControlName="feedback" placeholder="Feedback"></ion-textarea>
     </ion-col>
   </ion-row>
   
-  <ion-button shape="round" expand="block" color="medium">Trip Finished</ion-button>
-
+  <ion-button shape="round" type="submit" expand="block" color="medium">Trip Finished</ion-button>
+  </form>
 </ion-grid>
 
 </ion-content>

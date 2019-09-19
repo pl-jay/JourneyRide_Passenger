@@ -31,13 +31,14 @@ export class Tab2Page implements OnInit {
   trip_id: number;
   bidDetails: any;
   modal_data: any;
+  result_is_empty = true;
 
   ngOnInit() {
     this.storageService.getStorageData('user_id').then((res) => {
       this.ps_id = res;
     })
     this.storageService.getStorageData('trip_id').then((res) => {
-      this.trip_id = 1;
+      this.trip_id = res;
     })
   }
 
@@ -59,7 +60,7 @@ export class Tab2Page implements OnInit {
     ).subscribe((res) => {
       if (res != null) {
         this.bidDetails = res;
-        console.log(this.bidDetails);
+        if (res[0]){this.result_is_empty = false;}
         this.notify.showSuccessAlert('Drivers responded !');
       } else {
         this.notify.showErrorAlert(res[`error`]);

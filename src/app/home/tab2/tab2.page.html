@@ -6,12 +6,14 @@
     <ion-buttons slot="end">
       <ion-back-button defaultHref="/home/tab1"></ion-back-button>
     </ion-buttons>
-    <ion-title text-center>Drivers Notifications</ion-title>
+    <ion-title text-center>Owners Notifications</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen padding scroll-y="true">
-  <h4>Available Drivers</h4>
+  <h4>Available Trip Offers</h4>
+  
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <p>Press to load Trip Data</p>
     <ion-fab-button (click)="load_data()">
       <ion-icon name="sync"></ion-icon>
     </ion-fab-button>
@@ -30,5 +32,12 @@
       </ion-grid>
     </ion-card-content>
     </ion-card>
+
+    
+    <div class="empty_case" *ngIf="result_is_empty"> 
+      <p>Drivers might on the Trips at this moment</p> 
+      <p> Please try again !</p>
+    </div>
+      
  
 </ion-content>
