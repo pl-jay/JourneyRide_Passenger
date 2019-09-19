@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'https://dirtbike.website/bll/'
+  //url: 'http://pathumlakshan.pythonanywhere.com/'
+  url: 'http://127.0.0.1:5000/'
 };
 
 /*

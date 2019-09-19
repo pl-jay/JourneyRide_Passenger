@@ -61,15 +61,15 @@ export class RegisterPage implements OnInit {
 
   tryRegister(value) {
       const user = {
-          user_role: 0,
-          user_name: value.username,
+          user_role: 'passenger',
+          username: value.username,
           email: value.email,
           password: value.password
       }
-
-      this.newUser = JSON.stringify(user);
-
-      this.authService.registermethod(this.newUser);
+      this.newUser = user;
+      this.authService.registermethod(this.newUser).then(()=>{ 
+        this.navCtrl.navigateBack('/auth/login')
+      });
   }
 
   goLoginPage() {

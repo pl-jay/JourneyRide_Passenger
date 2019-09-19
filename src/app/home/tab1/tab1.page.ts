@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { GAuthenticateService } from '../../services/g-auth/gauthentication.service';
 import { NotificationService } from '../../services/notification/notification.service';
 import { StorageService } from '../../services/storage/storage.service';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: './tab1.page.html',
@@ -12,7 +14,8 @@ export class Tab1Page implements OnInit {
 
   constructor(private gAuth: GAuthenticateService, 
               private notificationService: NotificationService, 
-              private storageService: StorageService) { }
+              private storageService: StorageService,
+              private http: HttpClient) { }
 
   ngOnInit() {
     
@@ -29,7 +32,17 @@ export class Tab1Page implements OnInit {
 
   getRegId() {
     this.storageService.getStorageData('device_redId').then((res) =>{
-      alert(res);
+      
+    })
+  }
+
+  test() {
+    this.http.get('http://pathumlakshan.pythonanywhere.com/users').subscribe((res) => {
+      console.log(res);
+    })
+
+    this.http.get('http://127.0.0.1:5000/owners').subscribe((res) => {
+      console.log(res);
     })
   }
 }

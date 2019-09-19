@@ -11,18 +11,20 @@
 </ion-header>
 <ion-content fullscreen padding scroll-y="true">
   <h4>Available Drivers</h4>
-      
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="load_data()">
+      <ion-icon name="sync"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-    <ion-card *ngFor="let bid of bidDetails.bid1" (click)="presentModal(bid.bidId)">
+      <ion-card *ngFor="let bid of bidDetails" (click)="presentModal(bid.ts_id)">
       <ion-card-content>
       <ion-grid>
         <ion-row>
           <ion-col>
-            <img src={{bid.prof_pic}} class="profile-pic">
-          </ion-col>
-          <ion-col>
-            <p>{{ bid.driverName }}</p>
-            <p>Rs:{{ bid.budget }} </p>
+            <p><b>Company Name: {{ bid.company_name }}</b></p>
+            <p><b>Area: {{ bid.area }}</b></p>
+            <h4><b>Rs:{{ bid.budget }}</b></h4>
           </ion-col>
         </ion-row>
       </ion-grid>

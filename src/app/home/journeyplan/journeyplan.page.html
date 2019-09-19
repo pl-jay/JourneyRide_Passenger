@@ -23,14 +23,14 @@
           <ion-row >
             <ion-col>
                 <h6>Destination:</h6>
-                <ion-input type="text" formControlName="travel_location" placeholder="Destination"></ion-input>
+                <ion-input type="text" formControlName="destination" placeholder="Destination"></ion-input>
             </ion-col>
           </ion-row>
       
           <ion-row >
             <ion-col>
                 <h6>Number of Passenger:</h6>
-                <ion-input type="text" placeholder="Number of Passenger" formControlName="number_of_passenger"></ion-input>
+                <ion-input type="number" placeholder="Number of Passenger" formControlName="no_of_passengers"></ion-input>
             </ion-col>
           </ion-row>
 
@@ -42,21 +42,21 @@
             
           <ion-col>
               <h6>From :</h6>
-              <ion-datetime formControlName="arrival_date" value="2012-12-15"></ion-datetime>
+              <ion-datetime formControlName="date_from" value="2012-12-15"></ion-datetime>
           </ion-col>
         </ion-row>
 
         <ion-row >
           <ion-col>
               <h6>To :</h6>
-              <ion-datetime formControlName="departure_date" value="2012-12-15" placeholder="To"></ion-datetime>
+              <ion-datetime formControlName="date_to" value="2012-12-15" placeholder="To"></ion-datetime>
           </ion-col>
         </ion-row>
 
         <ion-row >
             <ion-col>
                 <h6>To :</h6>
-                <ion-input formControlName="way_point" placeholder="Waypoint"></ion-input>
+                <ion-input formControlName="waypoint" placeholder="Waypoint"></ion-input>
             </ion-col>
           </ion-row>
 
@@ -82,13 +82,6 @@
           <ion-col>
               <h6>Description</h6>
               <ion-textarea formControlName="trip_description" placeholder="Description"></ion-textarea>
-            </ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col>
-              <h6> Your user Id: {{uid}}</h6>
-              <ion-input formControlName="user_id" placeholder="Your User ID"> </ion-input>
             </ion-col>
           </ion-row>
 

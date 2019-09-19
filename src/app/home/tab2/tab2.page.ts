@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, from } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
+import { environment } from '../../../environments/environment';
+
+const URL = environment.url;
 @Component({
   selector: 'app-tab2',
   templateUrl: './tab2.page.html',
@@ -11,72 +19,66 @@ export class Tab2Page implements OnInit {
   public anArray: any = [];
   data: boolean;
 
-  bidDetails = {
-      bid1: [
-        {
-          bidId: 0,
-          driverName: 'Malinga1',
-          prof_pic: 'assets/icon/lg3.jpg',
-          budget : 21000,
-          vehicle: 'Toyota Rocco'
-        },
-        {
-          bidId: 1,
-          driverName: 'Malinga',
-          prof_pic: 'assets/icon/lg3.jpg',
-          budget : 25000,
-          vehicle: 'Toyota Rocco'
-        },
-        {
-          bidId: 2,
-          driverName: 'Kule2',
-          prof_pic: 'assets/icon/lg3.jpg',
-          budget : 12000,
-          vehicle: 'BMW M5 Sport'
-        },
-        {
-          bidId: 3,
-          driverName: 'Kule3',
-          prof_pic: 'assets/icon/lg3.jpg',
-          budget : 13000,
-          vehicle: 'BMW M5 Sport'
-        },
-        {
-          bidId: 4,
-          driverName: 'Kule4',
-          prof_pic: 'assets/icon/lg5.png',
-          budget : 14000,
-          vehicle: 'BMW M5 Sport'
-        }
-      ]
-  }
+  constructor(private modalController: ModalController,
+              private storageService: StorageService,
+              private httpClient: HttpClient,
+              private loadingController: LoadingController,
+              private notify: NotificationService) { }
 
-  constructor(private modalController: ModalController) { }
-
+  // Variable Declaration
   DataRet: any;
+  ps_id: number;
+  trip_id: number;
+  bidDetails: any;
+  modal_data: any;
 
   ngOnInit() {
-
-  }
-  goTo() {
-    console.log('this.anArray', this.anArray);
-    this.data = true;
-    }
-  Add(){
-    this.anArray.push({'value':''});
-    }
-
-  onClick(id) {
-    alert(id + 'trip confirmed !');
+    this.storageService.getStorageData('user_id').then((res) => {
+      this.ps_id = res;
+    })
+    this.storageService.getStorageData('trip_id').then((res) => {
+      this.trip_id = 1;
+    })
   }
 
-  
+  async load_data(){
+    const loading = await this.loadingController.create({
+      spinner: 'circles',
+      message: 'Getting Data...',
+      translucent: true,
+      cssClass: 'custom-class custom-loading'
+    });
+    await loading.present();
+
+    const params = new HttpParams({
+      fromString: `${this.trip_id}`
+    });
+
+    return from(this.httpClient.get(URL + 'trip_status/' + `${this.trip_id}`)).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe((res) => {
+      if (res != null) {
+        this.bidDetails = res;
+        console.log(this.bidDetails);
+        this.notify.showSuccessAlert('Drivers responded !');
+      } else {
+        this.notify.showErrorAlert(res[`error`]);
+      }
+    });
+  }
+
   async presentModal(id) {
 
+    this.bidDetails.forEach(element => {
+      if (element[`ts_id`] === id) {
+        this.modal_data = element;
+      }
+    });
+    
     const modal = await this.modalController.create({
       component: ModalPage,
       componentProps: {
-        details: this.bidDetails.bid1[id]
+        details: this.modal_data
       }
     });
 

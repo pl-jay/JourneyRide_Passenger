@@ -8,7 +8,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
 
-const URL = environment.url + 'passenger/start_new_trip.php';
+const URL = environment.url + 'createTrip';
 @Component({
   selector: 'app-journeyplan',
   templateUrl: './journeyplan.page.html',
@@ -35,27 +35,26 @@ export class JourneyplanPage implements OnInit {
   ngOnInit() {
 
     this.storage.getStorageData('user_token').then((res) => {
-      this.uid = res;
-      alert(res)
+      
     });
 
     this.journeyplanForm = this.formBuilder.group({
       start_location: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      way_point: new FormControl('', Validators.compose([
+      waypoint: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      number_of_passenger: new FormControl('', Validators.compose([
+      no_of_passengers: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      travel_location: new FormControl('', Validators.compose([
+      destination: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      arrival_date: new FormControl('', Validators.compose([
+      date_to: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      departure_date: new FormControl('', Validators.compose([
+      date_from: new FormControl('', Validators.compose([
         Validators.required
       ])),
       pickup_time: new FormControl('', Validators.compose([
@@ -69,23 +68,21 @@ export class JourneyplanPage implements OnInit {
       ])),
       trip_description: new FormControl('', Validators.compose([
         Validators.required
-      ])),
-      user_id: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
+      ]))
     });
   }
 
 
 
   onSubmit(value) {
-    this.tripDetails = JSON.stringify(value);
-    console.log(this.tripDetails);
-
+    value.passenger_id = 1;
+    this.tripDetails = value;
     this.httpClient.post(URL, this.tripDetails).subscribe((res) => {
       if (res[`trip_id`] != null) {
-        this.navCtrl.navigateBack('/home/tab1');
-        this.notify.showSuccessAlert('Trip plan Sent to Drivers');
+        this.storage.setStorageData('trip_id', res[`trip_id`]).then(()=>{
+          this.navCtrl.navigateBack('/home/tab1');
+          this.notify.showSuccessAlert('Trip plan Sent to Drivers');
+        });
       }
     });
   }

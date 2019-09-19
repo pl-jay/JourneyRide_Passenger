@@ -11,12 +11,12 @@
    <ion-grid class="loggin">
    <form class="form" [formGroup]="credentialsForm"  (ngSubmit)="loginUser(credentialsForm.value)">
     <ion-row padding>
-      <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
+      <ion-input type="text" formControlName="username" placeholder="Email"></ion-input>
     </ion-row>
     <ion-row>
       <div class="error-message">    
-        <ng-container *ngFor="let validation of validationMessages.email">
-          <p class="error-message" *ngIf="credentialsForm.get('email').hasError(validation.type) && (credentialsForm.get('email').dirty || credentialsForm.get('email').touched)">
+        <ng-container *ngFor="let validation of validationMessages.username">
+          <p class="error-message" *ngIf="credentialsForm.get('username').hasError(validation.type) && (credentialsForm.get('username').dirty || credentialsForm.get('username').touched)">
             {{ validation.message }}
           </p>
         </ng-container>

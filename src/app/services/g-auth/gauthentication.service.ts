@@ -32,11 +32,13 @@ export class GAuthenticateService {
       cssClass: 'custom-class custom-loading'
     });
 
-    return from(this.httpClient.post(URL + 'login.php', value)).pipe(
+    return from(this.httpClient.post(URL + 'login', value)).pipe(
       finalize(() => loading.dismiss())
     ).subscribe((res) => {
       if (res[`success`] == 1) {
-        this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
+        this.storageService.setStorageData('access_token', res[`access_token`])
+        this.storageService.setStorageData('refresh_token', res[`refresh_token`])
+        this.storageService.setStorageData('user_id', res[`user_id`]).then(() => {
           this.checkToken();
           this.notify.showSuccessAlert('Loggin Success !');
         });
@@ -76,13 +78,11 @@ export class GAuthenticateService {
     });
     await loading.present();
 
-    return from(this.httpClient.post(URL + 'register.php', value)).pipe(
+    return from(this.httpClient.post(URL + 'registration', value)).pipe(
       finalize(() => loading.dismiss())
     ).subscribe((res) => {
+      console.log(res)
       if(res[`success`] == 1) {
-        this.storageService.setStorageData('user_token', res[`uid`]).then(() => {
-          this.checkToken();
-        });
         this.notify.showSuccessAlert('Registration Success !');
       } else {
         this.notify.showErrorAlert(res[`error`]);
@@ -92,7 +92,7 @@ export class GAuthenticateService {
   }
 
   checkToken() {
-    this.storageService.getStorageData('user_token').then((token) => {
+    this.storageService.getStorageData('access_token').then((token) => {
       if (token) {
         this.authenticationState.next(true);
       } else {

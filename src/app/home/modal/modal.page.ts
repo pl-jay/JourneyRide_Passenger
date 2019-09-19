@@ -7,23 +7,29 @@ import { ModalController, NavParams } from '@ionic/angular';
 })
 export class ModalPage implements OnInit {
   details;
-  bidId: number;
-  driverName: string;
+  tsId: number;
+  area: string;
+  company_name: string;
   budget: number;
-  vehicle: string;
+  v_type: string;
+  v_brand: string;
+  contact: number;
 
   constructor(private modalController: ModalController, private navParams: NavParams) { }
 
   ngOnInit() {
-    this.bidId = this.navParams.data.details[`bidId`];
-    this.driverName = this.navParams.data.details[`driverName`];
+    this.tsId = this.navParams.data.details[`ts_id`];
+    this.area = this.navParams.data.details[`area`];
+    this.company_name = this.navParams.data.details[`comapny_ame`];
     this.budget = this.navParams.data.details[`budget`];
-    this.vehicle = this.navParams.data.details[`vehicle`];
+    this.v_type = this.navParams.data.details[`v_type`];
+    this.v_brand = this.navParams.data.details[`v_brand`];
+    this.contact = this.navParams.data.details[`contact`]
 
   }
 
   confirmTrip() {
-    alert('are u sure ?');
+    alert('are u sure ?' + this.tsId);
   }
 
   closeModal() {

@@ -14,7 +14,7 @@ export class LoginPage implements OnInit {
   newUser: any;
 
   validationMessages = {
-    email: [
+    username: [
       { type: 'required', message: 'Email is required.' },
       { type: 'pattern', message: 'Please enter a valid email.' }
     ],
@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.credentialsForm = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
+      username: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
   }
 
   async loginUser(value) {
-    this.newUser = JSON.stringify(value);
+    this.newUser = value;
     this.gAuthService.loginmethod(this.newUser).then((res) => {
       console.log(res);
     });
